@@ -2,14 +2,14 @@
 
 ###基本的语法结构如下:
 
- 	```	
+ 	
 	_.matcher(strategy)
 		.case(pred0, action0)
 		.case(pred1, action1)
 		.case(pred2, action2)
 		.case(predN, actionN)  
 		.default(defaultAction) 
-	```
+	
 
 ###1. strategy 是一种比较策略, 有两种选项
  *      a)  'strict'    严格的 === 比较, (区分 +0, 0, -0是不同的, 而 NaN 和 NaN是相同的).
@@ -41,12 +41,12 @@
 ###5. 调用matcher, 会返回第一个匹配的pred 对应的action的执行后的返回值.
 
 ##Examples
-	```
+	
 	const _ = require('./../src')
 	const log = console.log.bind(console)
-	```
+	
 ###test-match
-	```	
+		
 	const r = _.match(150)
         .case(_.lt(100), _.format('{_} < 100'))
         .case(_.and(_.gte(100), _.lt(200)), _.format('100 <= {_} < 200'))
@@ -55,7 +55,7 @@
 
 	log(r)
 ###test-primitive
-	```
+	
 	const matcher = _.matcher('loose')
     	.case(1, '1 or \'1\'')
     	.case('hello', 'hello(ignoreCase)')
@@ -67,9 +67,9 @@
 	log(matcher.invoke('HELLO'))
 	log(matcher.invoke({name : 'hello'}))
 	log(matcher.invoke([1, 2, 3]))
-	```
+	
 ###test-array
-	```	
+	
 	const matcher = _.matcher('loose')
     	.case(_.or(null, undefined, { length: 0 }), 'Array is empty.')
     	.case({ length: 1 }, 'Array has one ele.')
@@ -81,9 +81,9 @@
 	log(matcher.invoke([1]))
 	log(matcher.invoke([1, 2, 3]))
 	log(matcher.invoke([{ tag: 'a' }, { tag: 'b' }, { tag: 'c' }]))
-	```
+	
 ###test-object
-	```	
+	
 	const matcher = _.matcher()
     	.case({ age: 1 }, _.format('{name} is new borned.'))
     	.case({ age: _.and(_.gte(10), _.lt(20)) }, _.format('{name} is teen-age youths.'))
@@ -99,9 +99,9 @@
 	log(matcher.invoke({ name: 'Rose', age: 40 }))
 	log(matcher.invoke(undefined))
 	log(matcher.invoke(null))
-	```
+	
 ###test-regexp
-	```
+	
 	const matcher = _.matcher()
     	.case(/^\d+$/, 'number')
     	.case(/^[a-zA-Z]+$/, 'letters')
@@ -110,9 +110,9 @@
 	log(matcher.invoke(1234))
 	log(matcher.invoke('HELLO'))
 	log(matcher.invoke([1, 2, 3]))
-	```
+	
 ###test-function
-	```
+	
 	const fibonacci = _.matcher()
     	.case(0, 0)
     	.case(1, 1)
@@ -136,4 +136,4 @@
     	.case((arr, s, e) => s >= e - 1, (arr, s) => arr[s])
     	.default((arr, s, e) => Math.max(arr[s], max.invoke(arr, s + 1, e)))
 	log(max.invoke([5, 6, 8, 11, 4, 3, 2]))
-	```
+	
