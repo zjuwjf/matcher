@@ -1,0 +1,26 @@
+const _ = require('./../src')
+const log = console.log.bind(console)
+
+const fibonacci = _.matcher()
+    .case(0, 0)
+    .case(1, 1)
+    .default((v) => fibonacci.invoke(v - 1) + fibonacci.invoke(v - 2))
+log(fibonacci.invoke(20))
+
+const fibonacciCached = _.matcher()
+    .cacheEnabled()
+    .case(0, 0)
+    .case(1, 1)
+    .default((v) => fibonacciCached.invoke(v - 1) + fibonacciCached.invoke(v - 2))
+log(fibonacciCached.invoke(100))
+
+const factorial = _.matcher()
+    .case(0, 1)
+    .default((n) => n * factorial.invoke(n - 1))
+log(factorial.invoke(5))
+
+const max = _.matcher()
+    .case((arr, s, e) => s === undefined || e === undefined, (arr, s, e) => max.invoke(arr, s || 0, e || arr.length))
+    .case((arr, s, e) => s >= e - 1, (arr, s) => arr[s])
+    .default((arr, s, e) => Math.max(arr[s], max.invoke(arr, s + 1, e)))
+log(max.invoke([5, 6, 8, 11, 4, 3, 2]))
